@@ -92,5 +92,37 @@ class StudentsSubjectsMarksJpaApplicationTests {
 	}
 	
 	
+	/******************** he65 ********************/
+	@Test
+	@Order(7)
+	void bestStudentsSubjectTest() {
+		List<Student> expected = Arrays.asList(new Student(1, "student1"),new Student(2, "student2"), new Student(3, "student3") );
+		List<Student> actual = collegeService.bestStudentsSubject(5,"subject1");
+		assertIterableEquals(expected, actual);
+	}
+	
+	@Test
+	@Order(7)
+	void subjectGreatestAvgMark() {
+		Subject expected = new Subject(1,  "subject1");
+		Subject actual = collegeService.subjectGreatestAvgMark();
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	@Order(7)
+	void studentsMaxMarksCountTest() {
+		List<Student> expected = Arrays.asList(new Student(1, "student1"));
+		List<Student> actual = collegeService.getStudentsMaxMarksCount();
+		assertIterableEquals(expected, actual);
+	}
+	
+	@Test
+	@Order(7)
+	void  subjectsAvgMarkLessTest() {
+		List<Subject> expected = Arrays.asList(new Subject(1, "subject1"),new Subject(2, "subject2"), new Subject(3, "subject3"));
+		List<Subject> actual = collegeService.getSubjectsAvgMarkLess(80);
+		assertIterableEquals(expected, actual);	
+	}
 
 }

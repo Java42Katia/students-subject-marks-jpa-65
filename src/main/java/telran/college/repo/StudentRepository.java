@@ -17,4 +17,6 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
 @Query("select s from StudentEntity s where s.id in"
 		+ " (select ms.id from MarkEntity m right join m.student ms group by ms.id having count(m.mark) < :countMin) ")
 	List<StudentEntity> getStudentsCountLess(long countMin);
+
+
 }

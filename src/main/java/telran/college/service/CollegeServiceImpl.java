@@ -1,5 +1,6 @@
 package telran.college.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -91,18 +92,6 @@ public class CollegeServiceImpl implements CollegeService {
 	}
 
 	@Override
-	public List<Student> bestStudentsSubject(int nStudents, String subjectName) {
-		// TODO 
-		return null;
-	}
-
-	@Override
-	public Subject subjectGreatestAvgMark() {
-		// TODO  
-		return null;
-	}
-
-	@Override
 	@Transactional
 	public void deleteStudentsAvgMarkLess(int avgMark) {
 		studentsRepository.deleteStudentsAvgMarkLess((double)avgMark);
@@ -138,17 +127,33 @@ public class CollegeServiceImpl implements CollegeService {
 		
 		return toStudentsFromProj(marksRepository.findStudentsAllMarksGreaterEqual(mark, subject));
 	}
+	
+/***************** hw65 *****************/
+
+	@Override
+	public List<Student> bestStudentsSubject(int nStudents, String subjectName) {
+		return toStudentsFromProj(marksRepository.findBestStudentsSubject(nStudents, subjectName));
+	}
+
+	@Override
+	public Subject subjectGreatestAvgMark() {
+		if(marksRepository.count() == 0) {
+			return null;
+		}
+		IdNameProj proj = marksRepository.findSubjectGreatestAvgMark();
+		return new Subject(proj.getId(), proj.getName());
+	}
 
 	@Override
 	public List<Student> getStudentsMaxMarksCount() {
-		// TODO Auto-generated method stub
-		return null;
+		return toStudentsFromProj(marksRepository.findStudentsMaxMarksCount());
 	}
 
 	@Override
 	public List<Subject> getSubjectsAvgMarkLess(int avgMark) {
-		// TODO Auto-generated method stub
-		return null;
+		return marksRepository.findSubjectsAvgMarkLess(avgMark).stream()
+				.map(in -> new Subject(in.getId(), in.getName()))
+				.toList();
 	}
 
 }
